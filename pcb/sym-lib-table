@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name hmc625b_pinout)(type Legacy)(uri ${KIPRJMOD}/parts/hmc625b_pinout.lib)(options "")(descr ""))
+)
