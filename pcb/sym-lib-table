@@ -1,3 +1,6 @@
 (sym_lib_table
   (lib (name hmc625b_pinout)(type Legacy)(uri ${KIPRJMOD}/parts/hmc625b_pinout.lib)(options "")(descr ""))
+  (lib (name STM32L010C6)(type Legacy)(uri ${KIPRJMOD}/parts/STM32L010C6.lib)(options "")(descr ""))
+  (lib (name rf-vga-rescue)(type Legacy)(uri ${KIPRJMOD}/rf-vga-rescue.lib)(options "")(descr ""))
+  (lib (name TDCG1060M)(type Legacy)(uri ${KIPRJMOD}/parts/TDCG1060M.lib)(options "")(descr ""))
 )
