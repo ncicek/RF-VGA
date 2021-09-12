@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 3
+Sheet 1 4
 Title ""
 Date ""
 Rev ""
@@ -57,4 +57,10 @@ Wire Wire Line
 Connection ~ 4650 2100
 Wire Wire Line
 	4650 2100 5000 2100
+$Sheet
+S 2050 3700 550  600 
+U 6138BAE8
+F0 "psu" 50
+F1 "psu.sch" 50
+$EndSheet
 $EndSCHEMATC
