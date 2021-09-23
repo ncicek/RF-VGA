@@ -1,0 +1,29 @@
+Comment,Designator,Footprint,LCSC
+0.1u,"C1,C12,C16,C22,C23,C24,C25,C28",Capacitor_SMD:C_0402_1005Metric,C1525
+2.2u,C13,Capacitor_SMD:C_0402_1005Metric,C23733
+0.1n,"C2,C15",Capacitor_SMD:C_0402_1005Metric,C1546
+10n,"C18,C20,C21",Capacitor_SMD:C_0402_1005Metric,C15195
+1n,"C3,C11,C14",Capacitor_SMD:C_0402_1005Metric,C1523
+1u,"C4,C17,C19,C26,C27",Capacitor_SMD:C_0402_1005Metric,C52923
+330p,"C5,C6,C7,C8,C9,C10",Capacitor_SMD:C_0402_1005Metric,C13533
+TDCG1060M,DS1,parts:DISPLAY_TDCG1060M,
+GZ2012D601TF,"FB1,FB2",Inductor_SMD:L_0805_2012Metric,C1017
+TEST CONNECTOR,J1,Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical,
+Input,J2,parts:SMA_Samtec_SMA-J-P-X-ST-EM1_EdgeMount_withSTEP,
+Output,J3,parts:SMA_Samtec_SMA-J-P-X-ST-EM1_EdgeMount_withSTEP,
+SWD Programming Header,J4,Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical,
+Conn_02x04_Odd_Even,J5,Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical,
+Barrel_Jack_Switch,J7,Connector_BarrelJack:BarrelJack_Horizontal,
+30V input,J8,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,
+5V input bypass,J9,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,
+3.5u,L1,4310LC:4310LC,
+2N7002,"Q1,Q2,Q3,Q4",Package_TO_SOT_SMD:SOT-23,C20917
+1.8,R1,Resistor_SMD:R_0402_1005Metric,
+10k,"R2,R3,R4,R7,R9",Resistor_SMD:R_0402_1005Metric,C25744
+82,"R5,R6,R8,R10,R12,R14,R15,R16,R17,R18",Resistor_SMD:R_0402_1005Metric,C25076
+Rotary_Encoder_Switch,SW1,Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm_CircularMountingHoles,
+TestPoint,TP1,TestPoint:TestPoint_Pad_2.0x2.0mm,
+HMC625B,U1,Package_DFN_QFN:QFN-32-1EP_5x5mm_P0.5mm_EP3.45x3.45mm_ThermalVias,
+LM1117-3.3,U2,Package_TO_SOT_SMD:SOT-223-3_TabPin2,C6186
+STM32L010C6,U3,Package_QFP:LQFP-48_7x7mm_P0.5mm,C2802165
+LM78M05_TO252,U4,Package_TO_SOT_SMD:TO-252-2,C58069
