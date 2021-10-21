@@ -157,7 +157,6 @@
 		<project id="rf-vga.null.1596254825" name="rf-vga"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.328832599;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.328832599.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.1919665157;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.125567283">
@@ -168,4 +167,7 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
+		<buildTargets/>
+	</storageModule>
 </cproject>
