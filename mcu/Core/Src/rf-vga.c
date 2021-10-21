@@ -1,5 +1,6 @@
 #include "main.h"
 #include <stdint.h>
+#include "hittite_serial.h"
 
 #define CLAMP(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 
@@ -25,8 +26,13 @@ uint8_t get_gain() {
     return gain_word;
 }
 
+uint8_t previous_gain = 0;
 void main_loop() {
     uint8_t gain;
     gain = get_gain();
+    if (gain != previous_gain) {
+    	shift_out(gain);
+    }
+    previous_gain = gain;
     //HAL_Delay(100);
 }
