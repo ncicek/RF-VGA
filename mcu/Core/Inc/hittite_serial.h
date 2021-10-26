@@ -4,4 +4,4 @@
 #include "main.h"
 void shift_out(uint8_t control_word);
 
-#endif /* __MAIN_H */
+#endif

@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #include <math.h>
 #include "main.h"
+#include "seven_seg.h"
+#include <stdio.h>
 
 #define SEG_A 1<<0
 #define SEG_B 1<<1
@@ -18,62 +20,94 @@
 #define DIG3 1<<12
 #define DIG4 1<<13
 
-void display_segment(uint8_t digit, bool decimal_point) {
-    const uint8_t seven_seg_map[] = { SEG_A|SEG_B|SEG_C|SEG_D|SEG_E|SEG_F|00000,
+SevenSeg ss = { .current_digit = 0 };
+
+void display_segment(char character, bool decimal_point) {
+    const uint8_t seven_seg_map[10] = { 
+                                SEG_A|SEG_B|SEG_C|SEG_D|SEG_E|SEG_F|00000,
 								00000|SEG_B|SEG_C|00000|00000|00000|00000,
 								SEG_A|SEG_B|00000|SEG_D|SEG_E|00000|SEG_G,
 								SEG_A|SEG_B|SEG_C|SEG_D|00000|00000|SEG_G,
 								00000|SEG_B|SEG_C|00000|00000|SEG_F|SEG_G,
+                                SEG_A|00000|SEG_C|SEG_D|00000|SEG_F|SEG_G,
 								SEG_A|00000|SEG_C|SEG_D|SEG_E|SEG_F|SEG_G,
-								SEG_A|SEG_B|SEG_C|00000|00000|00000|00000
+								SEG_A|SEG_B|SEG_C|00000|00000|00000|00000,
+                                SEG_A|SEG_B|SEG_C|SEG_D|SEG_E|SEG_F|SEG_G,
+                                SEG_A|SEG_B|SEG_C|00000|00000|SEG_F|SEG_G,
 								};
-    if (digit > 9) {
-        Error_Handler();
+    GPIOB->ODR &= ~(SEG_A|SEG_B|SEG_C|SEG_D|SEG_E|SEG_F|SEG_G|SEG_DP|SEG_COLON|SEG_DOT); //clear the old segment bits
+
+    if ('0' <= character && character <= '9') { //ASCII number
+        GPIOB->ODR |= seven_seg_map[character - 48];
+    } else if (character == '-') { //ASCII -
+        GPIOB->ODR |= SEG_G;
+    } else if (character == ' ') {
+    	//blank char
+    } else {
+        //Error_Handler();
     }
-    GPIOB->ODR &= ~(SEG_A|SEG_B|SEG_C|SEG_D|SEG_E|SEG_F|SEG_G|SEG_DP); //clear the old segment bits
-    GPIOB->ODR |= seven_seg_map[digit]; //write the new segment bits
+    
     if (decimal_point) {
         GPIOB->ODR |= SEG_DP;
     }
 }
 
 void flash_digit(uint8_t digit) {
-    const uint16_t digit_map[] = {DIG1, DIG2, DIG3, DIG4};
-
-    GPIOB->ODR &= ~(DIG4|DIG3|DIG2|DIG1);
+    const uint16_t digit_map[4] = {DIG1, DIG2, DIG3, DIG4};
+    if (digit > 3) {
+		Error_Handler();
+    }
     GPIOB->ODR |= digit_map[digit];
 }
 
-void display_number(uint16_t number, uint8_t decimal_point) {
-    int8_t n;
-    uint8_t nth_digit;
-    
-    for (n = 3; n >= 0; n--) {
-        nth_digit = (number / (int)(pow(10,n))) % 10;
-        display_segment(nth_digit, (n == decimal_point && decimal_point != 0) );
-        flash_digit(n);
+void clear_digits() {
+	GPIOB->ODR &= ~(DIG4|DIG3|DIG2|DIG1);
+}
+
+void update_display(float value) {
+    char string[NUM_DIGITS+1] = {0};
+    uint8_t i;
+
+    if (value == -0) {
+    	value = +0; //why do i need to do this?
+    }
+
+    sprintf(string, "%2.1f", value);
+
+    //shift right any trailing zeros
+    while (string[NUM_DIGITS] == 0) {
+    	for (i = NUM_DIGITS; i >= 1; i--) {
+    		string[i] = string[i-1];
+    	}
+    	string[0] = ' ';
+    }
+
+    for (i = 0; i < NUM_DIGITS; i++) {
+        if (string[i+1] == '.') {
+            ss.display[i].digit = string[i];
+            ss.display[i].decimal_point = true;
+        } else if (string[i] == '.') {
+        	ss.display[i].digit = string[i+1];
+			ss.display[i].decimal_point = false;
+        } else if (string[i] == 0) {
+			ss.display[i].digit = ' ';
+			ss.display[i].decimal_point = false;
+        } else {
+            ss.display[i].digit = string[i];
+            ss.display[i].decimal_point = false;
+        }
     }
 }
 
-void display_float(float value) {
 
-    //forget all this, just use sprintf
-
-    /*int exp;
-    float frac;
-    uint8_t decimal_point_position;
-
-    frac = frexpf(value, &exp);
-    if !(exp > -3 && exp < +3) {
-        Error_Handler();
-    }
-    if (exp < 0) {
-        decimal_point_position = exp * (-1) - 1;
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
+{
+    if (ss.current_digit < NUM_DIGITS) {
+    	clear_digits();
+		display_segment(ss.display[ss.current_digit].digit, ss.display[ss.current_digit].decimal_point);
+		flash_digit(ss.current_digit);
+        ss.current_digit += 1;
     } else {
-        decimal_point_position = 0;
+        ss.current_digit = 0;
     }
-
-    number = frac * 10 ** exp;
-    */
-
 }
