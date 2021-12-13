@@ -200,7 +200,7 @@ L Device:Rotary_Encoder_Switch SW1
 U 1 1 6132F135
 P 2250 5450
 F 0 "SW1" H 2250 5083 50  0000 C CNN
-F 1 "Rotary_Encoder_Switch" H 2250 5174 50  0000 C CNN
+F 1 "PEC11R-4315K-S0012" H 2250 5174 50  0000 C CNN
 F 2 "Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm_CircularMountingHoles" H 2100 5610 50  0001 C CNN
 F 3 "~" H 2250 5710 50  0001 C CNN
 	1    2250 5450
