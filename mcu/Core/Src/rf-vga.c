@@ -23,7 +23,7 @@ uint8_t get_gain() {
     	delta_encoder_count += 65536;
     }
 
-    gain_word = CLAMP(gain_word - delta_encoder_count, 0, 63);
+    gain_word = CLAMP(gain_word + delta_encoder_count, 0, 63);
     return gain_word;
 }
 
@@ -33,7 +33,7 @@ void main_loop() {
     gain = get_gain();
     if (gain != previous_gain) {
     	shift_out(gain);
-    	update_display(gain*(-1.0)/2.0);
+    	update_display((gain/2.0) - 31.5);
     }
     previous_gain = gain;
     //HAL_Delay(100);

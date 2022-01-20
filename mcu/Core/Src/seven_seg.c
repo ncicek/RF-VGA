@@ -22,7 +22,13 @@
 
 SevenSeg ss = { .current_digit = 0 };
 
-void display_segment(char character, bool decimal_point) {
+void display_segment(uint8_t digit, char character, bool decimal_point) {
+    uint16_t GPIOB_value = 0;
+
+    if (digit > 3) {
+		Error_Handler();
+    }
+
     const uint8_t seven_seg_map[10] = { 
                                 SEG_A|SEG_B|SEG_C|SEG_D|SEG_E|SEG_F|00000,
 								00000|SEG_B|SEG_C|00000|00000|00000|00000,
@@ -35,12 +41,12 @@ void display_segment(char character, bool decimal_point) {
                                 SEG_A|SEG_B|SEG_C|SEG_D|SEG_E|SEG_F|SEG_G,
                                 SEG_A|SEG_B|SEG_C|00000|00000|SEG_F|SEG_G,
 								};
-    GPIOB->ODR &= ~(SEG_A|SEG_B|SEG_C|SEG_D|SEG_E|SEG_F|SEG_G|SEG_DP|SEG_COLON|SEG_DOT); //clear the old segment bits
+    const uint16_t digit_map[4] = {DIG1, DIG2, DIG3, DIG4};
 
     if ('0' <= character && character <= '9') { //ASCII number
-        GPIOB->ODR |= seven_seg_map[character - 48];
+        GPIOB_value |= seven_seg_map[character - 48];
     } else if (character == '-') { //ASCII -
-        GPIOB->ODR |= SEG_G;
+        GPIOB_value |= SEG_G;
     } else if (character == ' ') {
     	//blank char
     } else {
@@ -48,20 +54,12 @@ void display_segment(char character, bool decimal_point) {
     }
     
     if (decimal_point) {
-        GPIOB->ODR |= SEG_DP;
+        GPIOB_value |= SEG_DP;
     }
-}
 
-void flash_digit(uint8_t digit) {
-    const uint16_t digit_map[4] = {DIG1, DIG2, DIG3, DIG4};
-    if (digit > 3) {
-		Error_Handler();
-    }
-    GPIOB->ODR |= digit_map[digit];
-}
+    GPIOB_value |= digit_map[digit]; //flash the digit requested
 
-void clear_digits() {
-	GPIOB->ODR &= ~(DIG4|DIG3|DIG2|DIG1);
+    GPIOB->ODR = GPIOB_value;
 }
 
 void update_display(float value) {
@@ -103,9 +101,7 @@ void update_display(float value) {
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
     if (ss.current_digit < NUM_DIGITS) {
-    	clear_digits();
-		display_segment(ss.display[ss.current_digit].digit, ss.display[ss.current_digit].decimal_point);
-		flash_digit(ss.current_digit);
+		display_segment(ss.current_digit, ss.display[ss.current_digit].digit, ss.display[ss.current_digit].decimal_point);
         ss.current_digit += 1;
     } else {
         ss.current_digit = 0;
