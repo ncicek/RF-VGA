@@ -101,7 +101,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  main_loop();
+	main_loop();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -214,9 +214,9 @@ static void MX_TIM21_Init(void)
 
   /* USER CODE END TIM21_Init 1 */
   htim21.Instance = TIM21;
-  htim21.Init.Prescaler = 100;
+  htim21.Init.Prescaler = 0;
   htim21.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim21.Init.Period = 40;
+  htim21.Init.Period = 0xffff;
   htim21.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim21.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim21) != HAL_OK)
@@ -286,6 +286,11 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
+void delay_us(uint16_t us) {
+  uint16_t start = TIM21->CNT;
+  while((TIM21->CNT - start) < us); // rebase, then compare
+}
+
 /* USER CODE END 4 */
 
 /**
@@ -320,4 +325,3 @@ void assert_failed(uint8_t *file, uint32_t line)
 }
 #endif /* USE_FULL_ASSERT */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

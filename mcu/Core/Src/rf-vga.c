@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include "hittite_serial.h"
 #include "seven_seg.h"
+#include "rf-vga.h"
 
 #define CLAMP(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 
@@ -33,8 +34,9 @@ void main_loop() {
     gain = get_gain();
     if (gain != previous_gain) {
     	shift_out(gain);
-    	update_display((gain/2.0) - 31.5);
+    	update_display((gain/2.0) - 31.5 + ZERO_DB_CAL_OFFSET);
     }
     previous_gain = gain;
+    flash_display();
     //HAL_Delay(100);
 }

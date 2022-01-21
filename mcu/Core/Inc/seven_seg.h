@@ -15,5 +15,6 @@ typedef struct SevenSeg {
 } SevenSeg;
 
 void update_display(float number);
+void flash_display();
 
 #endif

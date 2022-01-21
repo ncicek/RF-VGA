@@ -44,6 +44,7 @@ void display_segment(uint8_t digit, char character, bool decimal_point) {
     }
 
     GPIOB->ODR &= ~(DIG1 | DIG2 | DIG3 | DIG4); //turn off all digits before changing segments
+    delay_us(250); //wait for FET to turn off
 
     if ('0' <= character && character <= '9') { //ASCII number
         GPIOB_value |= seven_seg_map[character - 48];
@@ -62,6 +63,7 @@ void display_segment(uint8_t digit, char character, bool decimal_point) {
     GPIOB->ODR = GPIOB_value; //write the segments
 
     GPIOB->ODR |= digit_map[digit]; //flash the digit requested
+    delay_us(1500); //wait for FET to turn on
 }
 
 void update_display(float value) {
@@ -100,7 +102,7 @@ void update_display(float value) {
 }
 
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
+void flash_display(TIM_HandleTypeDef* htim)
 {
     if (ss.current_digit < NUM_DIGITS) {
 		display_segment(ss.current_digit, ss.display[ss.current_digit].digit, ss.display[ss.current_digit].decimal_point);
