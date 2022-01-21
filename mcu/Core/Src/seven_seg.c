@@ -25,10 +25,6 @@ SevenSeg ss = { .current_digit = 0 };
 void display_segment(uint8_t digit, char character, bool decimal_point) {
     uint16_t GPIOB_value = 0;
 
-    if (digit > 3) {
-		Error_Handler();
-    }
-
     const uint8_t seven_seg_map[10] = { 
                                 SEG_A|SEG_B|SEG_C|SEG_D|SEG_E|SEG_F|00000,
 								00000|SEG_B|SEG_C|00000|00000|00000|00000,
@@ -42,6 +38,12 @@ void display_segment(uint8_t digit, char character, bool decimal_point) {
                                 SEG_A|SEG_B|SEG_C|00000|00000|SEG_F|SEG_G,
 								};
     const uint16_t digit_map[4] = {DIG1, DIG2, DIG3, DIG4};
+
+    if (digit > 3) {
+		Error_Handler();
+    }
+
+    GPIOB->ODR &= ~(DIG1 | DIG2 | DIG3 | DIG4); //turn off all digits before changing segments
 
     if ('0' <= character && character <= '9') { //ASCII number
         GPIOB_value |= seven_seg_map[character - 48];
@@ -57,9 +59,9 @@ void display_segment(uint8_t digit, char character, bool decimal_point) {
         GPIOB_value |= SEG_DP;
     }
 
-    GPIOB_value |= digit_map[digit]; //flash the digit requested
+    GPIOB->ODR = GPIOB_value; //write the segments
 
-    GPIOB->ODR = GPIOB_value;
+    GPIOB->ODR |= digit_map[digit]; //flash the digit requested
 }
 
 void update_display(float value) {
