@@ -7,7 +7,7 @@
 #define CLAMP(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 
 uint16_t previous_encoder_count = 0;
-int8_t gain_word = 63;
+int8_t gain_word = 0;
 
 uint8_t get_gain() {
     uint16_t encoder_count;
@@ -28,7 +28,7 @@ uint8_t get_gain() {
     return gain_word;
 }
 
-uint8_t previous_gain = 0;
+uint8_t previous_gain = 63;
 void main_loop() {
     uint8_t gain;
     gain = get_gain();
