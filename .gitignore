@@ -30,3 +30,5 @@ fp-info-cache
 #STM32CUBEIDE
 .settings
 Debug
+
+.ipynb_checkpoints
