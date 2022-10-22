@@ -1,0 +1,35 @@
+{
+  "build": {
+    "cpu": "cortex-m0plus",
+    "extra_flags": "-DSTM32L051xx",
+    "f_cpu": "32000000L",
+    "mcu": "stm32l051c8t6",
+    "product_line": "STM32L051xx",
+    "variant": "STM32L0xx/L051C8"
+  },
+  "debug": {
+    "default_tools": [
+      "stlink"
+    ],
+    "jlink_device": "STM32L051C8",
+    "onboard_tools": [
+      "stlink"
+    ],
+    "openocd_target": "stm32l0",
+    "svd_path": "STM32L051x.svd"
+  },
+  "frameworks": [
+    "stm32cube"
+  ],
+  "name": "RF-VGA",
+  "upload": {
+    "maximum_ram_size": 8192,
+    "maximum_size": 65536,
+    "protocol": "stlink",
+    "protocols": [
+      "stlink"
+    ]
+  },
+  "url": "https://github.com/ncicek/RF-VGA",
+  "vendor": "Nebi Cicek"
+}
